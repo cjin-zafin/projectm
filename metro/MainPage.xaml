@@ -6,10 +6,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:metro="clr-namespace:metro"
         mc:Ignorable="d"
-        Height="354" Width="638">
+        Height="511" Width="1062">
 
-    <Grid>
+    <Grid Width="1062" Height="511">
         <Button Content="Button" HorizontalAlignment="Left" Margin="34,28,0,0" VerticalAlignment="Top" Width="75"/>
-        <ListBox HorizontalAlignment="Left" Height="167" Margin="34,83,0,0" VerticalAlignment="Top" Width="129" BorderThickness="1"/>
+        <ListBox HorizontalAlignment="Left" Height="397" Margin="34,83,0,0" VerticalAlignment="Top" Width="215" BorderThickness="1"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="129,28,0,0" TextWrapping="Wrap" Text="Log文件夹地址" VerticalAlignment="Top" Width="239"
+                 Controls:TextboxHelper.Watermark="Log文件夹地址"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>
+        <DataGrid Name="loadDataGrid"  ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="373,83,0,0" VerticalAlignment="Top" Height="64" Width="661">
+            
+        </DataGrid>
+        <Button Content="Button" Click="Button_Click" HorizontalAlignment="Left" Margin="276,248,0,0" VerticalAlignment="Top" Width="76" Height="46" RenderTransformOrigin="0.441,-0.25"/>
     </Grid>
 </UserControl>

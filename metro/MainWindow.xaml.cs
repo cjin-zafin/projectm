@@ -11,6 +11,12 @@ namespace metro
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

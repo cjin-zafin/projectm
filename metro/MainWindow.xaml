@@ -6,10 +6,10 @@
         Title="LOG 分析器" Height="600" Width="1080" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1" BorderThickness="4" Margin="9,0,0,0">
         <TabItem Header="首页" BorderThickness="0" Margin="0">
-            
+            <metro:MainPage Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
         <TabItem Header="HLR-FE 1 型">
-            <metro:MainPage/>
+            
         </TabItem>
         <TabItem Header="HLR-FE 2 型">
         </TabItem>
