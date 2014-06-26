@@ -30,29 +30,9 @@ namespace metro
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ObservableCollection<LoadData> LoadDataSet = new ObservableCollection<LoadData>();
-
-
+            
 
             LoadDataSet.Add(new LoadData("1", "1", "1", "1"));
-
-            loadDataGrid.ItemsSource = LoadDataSet;
-
-            
-        }
-
-
-        private void LoadData_Loaded(object sender, RoutedEventArgs e)
-        {
-            ObservableCollection<LoadData> LoadDataSet = new ObservableCollection<LoadData>();
-            //var items = new List<LoadData>();
-
-           LoadData load = new LoadData("1", "1", "1", "1");
-
-
-           LoadDataSet.Add(load);
-          //  items.Add(load);
-
-           loadDataGrid.ItemsSource = LoadDataSet;
         }
     }
 }
