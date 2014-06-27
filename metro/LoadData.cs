@@ -6,16 +6,6 @@ using System.Collections.ObjectModel;
 
 namespace metro
 {
-  public class LoadDataList : ObservableCollection<LoadData>
-  {
-      public LoadDataList() : base()
-      {
-          Add(new LoadData("1", "1", "1", "1"));
-      }
-  }
-           
-
-
   public class LoadData
   {
       private String cpuLoad;
