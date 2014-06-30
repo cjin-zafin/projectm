@@ -11,34 +11,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.ComponentModel;
 
 namespace metro
 {
-
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class HLETwo : UserControl, INotifyPropertyChanged
+    public partial class MainPage : UserControl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler DataAvailable;
 
-        private string _text;
-        public string Text
+
+
+        public MainPage()
         {
-            get { return _text; }
-            set
+            InitializeComponent();
+        }
+
+        protected virtual void OnDataAvailable(EventArgs e)
+        {
+            EventHandler eh = DataAvailable;
+            if (eh != null)
             {
-                _text = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("Text"));
+                eh(this, e);
             }
         }
 
-
-        public HLETwo()
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            MainWindow.passed = true;
         }
     }
 }
