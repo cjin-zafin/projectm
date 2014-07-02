@@ -11,12 +11,14 @@
         <TabItem Name="tab1" Header="HLR-FE 1 型">
             <metro:HLEOne Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="HLR-FE 2 型">
-            <metro:HLETwo Width="1062" Height="511" DataContext="{Binding}" />
-        </TabItem>
         <TabItem Header="CUDB 1 型">
         </TabItem>
+        <TabItem Header="HSS">
+        </TabItem>
         <TabItem Header="CUDB 2 型">
+        </TabItem>
+        <TabItem Header="HLR-FE 2 型">
+            <metro:HLETwo Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
     </Controls:MetroAnimatedSingleRowTabControl>
 </Controls:MetroWindow>
