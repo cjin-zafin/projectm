@@ -15,31 +15,19 @@ using System.Windows.Shapes;
 namespace metro
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for CUDBOne.xaml
     /// </summary>
-    public partial class MainPage : UserControl
+    public partial class CUDBOne : UserControl
     {
-        public event EventHandler DataAvailable;
-
-
-
-        public MainPage()
+        public CUDBOne()
         {
             InitializeComponent();
         }
 
-        protected virtual void OnDataAvailable(EventArgs e)
+        private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
-            EventHandler eh = DataAvailable;
-            if (eh != null)
-            {
-                eh(this, e);
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.passed = true;
+            HlrFileProcess hlrFileProcess = new HlrFileProcess();
+            LoadDataSet loadDataSet = hlrFileProcess.processHLRLogFile("F:\\ProjectMTest\\log\\2014-06-26-12-CUDB01.txt");
         }
     }
 }
