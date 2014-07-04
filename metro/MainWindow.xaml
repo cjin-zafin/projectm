@@ -12,6 +12,7 @@
             <metro:HLEOne Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
         <TabItem Header="CUDB 1 型">
+            <metro:CUDBOne Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
         <TabItem Header="HSS">
         </TabItem>
