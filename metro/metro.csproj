@@ -65,12 +65,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CudbFileProcess.cs" />
+    <Compile Include="Processors\CudbFileProcess.cs" />
     <Compile Include="Pages\CUDBOne.xaml.cs">
       <DependentUpon>CUDBOne.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Processors\HSSProcessor.cs" />
     <Compile Include="Validators\DimensionForeground.cs" />
-    <Compile Include="HlrFileProcess.cs" />
+    <Compile Include="Processors\HlrFileProcess.cs" />
     <Compile Include="Pages\HLEOne.xaml.cs">
       <DependentUpon>HLEOne.xaml</DependentUpon>
     </Compile>
