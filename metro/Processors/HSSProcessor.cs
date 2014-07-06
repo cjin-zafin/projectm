@@ -76,35 +76,59 @@ namespace metro.Processors
 
                 String sent = lines[sendLineNumber + 3];
                 String received = lines[receiveLineNumber + 3];
+                //sent = sent.Substring(2);
+                //received = received.Substring(2);
+
+                String sentValue = null;
+                String receivedValue = null;
 
                 XmlReader sentReader = XmlReader.Create(new StringReader(sent));
                 XmlReader receivedReader = XmlReader.Create(new StringReader(received));
 
-                while (maxCpuReader.Read())
+                while (sentReader.Read())
                 {
-                    if (maxCpuReader.NodeType == XmlNodeType.Element
-                       && maxCpuReader.Name == "r")
+                    if (sentReader.NodeType == XmlNodeType.Element
+                       && sentReader.Name == "r")
                     {
-                        Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
-                        maxCpu = maxCpuReader.ReadString();
+                        //Debug.WriteLine(sentReader.ReadString() + " sent \n");
+                        sentValue = sentReader.ReadString();
                     }
                 }
 
-                while (maxMemReader.Read())
+                while (receivedReader.Read())
                 {
-                    if (maxMemReader.NodeType == XmlNodeType.Element
-                       && maxMemReader.Name == "r")
+                    if (receivedReader.NodeType == XmlNodeType.Element
+                       && receivedReader.Name == "r")
                     {
-                        Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
-                        maxCpu = maxMemReader.ReadString();
+                        //Debug.WriteLine(receivedReader.ReadString() + " receive \n");
+                        receivedValue = receivedReader.ReadString();
                     }
+                }
+
+                if (sentValue != null && receivedValue != null)
+                {
+                    int ratio = int.Parse(receivedValue) / int.Parse(sentValue);
+                    hsData.sctpResendRate = ratio.ToString();
                 }
             }
         }
 
         private void processEsmFile(HssDataSet hsData, string filePath)
         {
-            throw new NotImplementedException();
+            //HssS6aUpdateLocationRequests
+            //HssS6aUpdateLocationAnswersDiaSuccess
+
+            //HssS6aCancelLocationRequests
+            //HssS6aCancelLocationAnswersDiaSuccess
+
+            String EsmMapSaiRequests = "EsmMapSaiRequests";
+            String EsmMapSaiSuccessResponses = "EsmMapSaiSuccessResponses";
+
+            String EsmExtDbModifySuccessResponses = "EsmExtDbModifySuccessResponses";
+            String EsmExtDbModifyRequests = "EsmExtDbModifyRequests";
+
+            String EsmExtDbSearchSuccessResponses = "EsmExtDbSearchSuccessResponses";
+            String EsmExtDbSearchRequests = "EsmExtDbSearchRequests";
         }
 
         private void processPlatformMeasureFile(HssDataSet hsData, String filePath)
@@ -142,7 +166,7 @@ namespace metro.Processors
                     if (maxCpuReader.NodeType == XmlNodeType.Element
                        && maxCpuReader.Name == "r")
                     {
-                        Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
+                        //Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
                         hsData.maxCpuLoad = maxCpuReader.ReadString();
                     }
                 }
@@ -152,7 +176,7 @@ namespace metro.Processors
                     if (maxMemReader.NodeType == XmlNodeType.Element
                        && maxMemReader.Name == "r")
                     {
-                        Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
+                        //Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
                         hsData.MaxMemUsage = maxMemReader.ReadString();
                     }
                 }

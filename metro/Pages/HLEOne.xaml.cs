@@ -32,7 +32,7 @@ namespace metro
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
             HSSProcessor hsProcessor = new HSSProcessor();
-            String file = "F:\\ProjectMTest\\log\\HSS\\A20140626.0900-0915_MIYHSS01FE01BER_PlatformMeasures";
+            String file = "F:\\ProjectMTest\\log\\HSS\\A20140625.0000-0015_MIYHSS01FE01BER_SS7Statistics";
             List<String> files = new List<string>();
             files.Add(file);
             hsProcessor.processHssFileSet(files);
