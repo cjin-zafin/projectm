@@ -47,7 +47,59 @@ namespace metro.Processors
 
         private void processSs7File(HssDataSet hsData, string filePath)
         {
-            throw new NotImplementedException();
+            if (File.Exists(filePath))
+            {
+                System.IO.StreamReader file =
+                      new System.IO.StreamReader(filePath);
+
+
+                List<String> lines = new List<string>();
+                int sendLineNumber = 0;
+                int receiveLineNumber = 0;
+                int count = 0;
+
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    lines.Add(line);
+                    if (line.Contains("tsp.sctp.data_chunk_received"))
+                    {
+                        receiveLineNumber = count;
+                    }
+                    else if (line.Contains("tsp.sctp.data_chunk_sent"))
+                    {
+                        sendLineNumber = count;
+                    }
+
+                    count++;
+                }
+
+                String sent = lines[sendLineNumber + 3];
+                String received = lines[receiveLineNumber + 3];
+
+                XmlReader sentReader = XmlReader.Create(new StringReader(sent));
+                XmlReader receivedReader = XmlReader.Create(new StringReader(received));
+
+                while (maxCpuReader.Read())
+                {
+                    if (maxCpuReader.NodeType == XmlNodeType.Element
+                       && maxCpuReader.Name == "r")
+                    {
+                        Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
+                        maxCpu = maxCpuReader.ReadString();
+                    }
+                }
+
+                while (maxMemReader.Read())
+                {
+                    if (maxMemReader.NodeType == XmlNodeType.Element
+                       && maxMemReader.Name == "r")
+                    {
+                        Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
+                        maxCpu = maxMemReader.ReadString();
+                    }
+                }
+            }
         }
 
         private void processEsmFile(HssDataSet hsData, string filePath)
@@ -79,7 +131,6 @@ namespace metro.Processors
                     count++;
                 }
 
-                String sysLine = lines[systemLineNumber];
                 String maxCpu = lines[systemLineNumber + 2];
                 String maxMem = lines[systemLineNumber + 6];
 
@@ -92,7 +143,7 @@ namespace metro.Processors
                        && maxCpuReader.Name == "r")
                     {
                         Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
-                        maxCpu = maxCpuReader.ReadString();
+                        hsData.maxCpuLoad = maxCpuReader.ReadString();
                     }
                 }
 
@@ -102,7 +153,7 @@ namespace metro.Processors
                        && maxMemReader.Name == "r")
                     {
                         Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
-                        maxCpu = maxMemReader.ReadString();
+                        hsData.MaxMemUsage = maxMemReader.ReadString();
                     }
                 }
             }
