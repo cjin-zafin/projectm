@@ -57,38 +57,54 @@ namespace metro.Processors
 
         private void processPlatformMeasureFile(HssDataSet hsData, String filePath)
         {
-            System.IO.StreamReader file =
-                   new System.IO.StreamReader(filePath);
-
-            List<String> lines = new List<string>();
-            int systemLineNumber = 0;
-            int count = 0;
-
-            string line;
-            while ((line = file.ReadLine()) != null)
+            if (File.Exists(filePath))
             {
-                lines.Add(line);
-                if (line.Contains("PlatformMeasures=DEFAULT, Source = _SYSTEM"))
+                System.IO.StreamReader file =
+                       new System.IO.StreamReader(filePath);
+
+
+                List<String> lines = new List<string>();
+                int systemLineNumber = 0;
+                int count = 0;
+
+                string line;
+                while ((line = file.ReadLine()) != null)
                 {
-                    systemLineNumber = count;
+                    lines.Add(line);
+                    if (line.Contains("PlatformMeasures=DEFAULT, Source = _SYSTEM"))
+                    {
+                        systemLineNumber = count;
+                    }
+
+                    count++;
                 }
 
-                count++;
-            }
+                String sysLine = lines[systemLineNumber];
+                String maxCpu = lines[systemLineNumber + 2];
+                String maxMem = lines[systemLineNumber + 6];
 
-            String sysLine = lines[systemLineNumber];
+                XmlReader maxCpuReader = XmlReader.Create(new StringReader(maxCpu));
+                XmlReader maxMemReader = XmlReader.Create(new StringReader(maxMem));
 
-            XmlReader xReader = XmlReader.Create(new StringReader(sysLine));
+                while (maxCpuReader.Read())
+                {
+                    if (maxCpuReader.NodeType == XmlNodeType.Element
+                       && maxCpuReader.Name == "r")
+                    {
+                        Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
+                        maxCpu = maxCpuReader.ReadString();
+                    }
+                }
 
-            Debug.WriteLine(xReader.ReadString() + "33 \n");
-
-            while (xReader.Read())
-            {
-                 if (xReader.NodeType == XmlNodeType.Element
-                    && xReader.Name == "moid")
-                 {
-                     Debug.WriteLine(xReader.ReadString() + "11 \n");
-                 }
+                while (maxMemReader.Read())
+                {
+                    if (maxMemReader.NodeType == XmlNodeType.Element
+                       && maxMemReader.Name == "r")
+                    {
+                        Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
+                        maxCpu = maxMemReader.ReadString();
+                    }
+                }
             }
         }
     }
