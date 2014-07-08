@@ -32,7 +32,7 @@ namespace metro
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
             HSSProcessor hsProcessor = new HSSProcessor();
-            String file = "F:\\ProjectMTest\\log\\HSS\\A20140625.0000-0015_MIYHSS01FE01BER_SS7Statistics";
+            String file = "F:\\ProjectMTest\\log\\HSS\\A20140625.0000-0015_MIYHSS01FE01BER_HSS-ESM";
             List<String> files = new List<string>();
             files.Add(file);
             hsProcessor.processHssFileSet(files);
@@ -51,7 +51,7 @@ namespace metro
             int rowCount = 0;
 
 
-            if (loadDataSet.saeOverflowList.Count > loadDataSet.c7sl1List.Count)
+            if(loadDataSet.saeOverflowList.Count > loadDataSet.c7sl1List.Count)
             {
                 rowCount = loadDataSet.saeOverflowList.Count;
             }
@@ -60,30 +60,30 @@ namespace metro
                 rowCount = loadDataSet.c7sl1List.Count;
             }
 
-            if (rowCount != 0)
+            if(rowCount != 0)
             {
                 loadDataGrid.Height = 167;
-                for (int i = 0; i < rowCount; i++)
+                for(int i = 0; i < rowCount; i++)
                 {
                     FirstGridData firstData = new FirstGridData();
                     firstData.CpuLoad = loadDataSet.cpuLoad;
                     firstData.SpxCPULoad = loadDataSet.spxCpuLoad;
 
-                    if (loadDataSet.saeOverflowList.Count == 0)
+                    if(loadDataSet.saeOverflowList.Count == 0)
                     {
                         firstData.SaxOverFlowCount = "PASS";
                     }
-                    else if (i < loadDataSet.saeOverflowList.Count)
+                    else if(i < loadDataSet.saeOverflowList.Count)
                     {
                         String saeData = loadDataSet.saeOverflowList[i].saeMachineName + " = " + loadDataSet.saeOverflowList[i].overflowNumber;
                         firstData.SaxOverFlowCount = saeData;
                     }
 
-                    if (loadDataSet.c7sl1List.Count == 0)
+                    if(loadDataSet.c7sl1List.Count == 0)
                     {
                         firstData.C7sl1 = "PASS";
                     }
-                    else if (i < loadDataSet.c7sl1List.Count)
+                    else if(i < loadDataSet.c7sl1List.Count)
                     {
                         String c7Data = loadDataSet.c7sl1List[i].c7Name + " = " + loadDataSet.c7sl1List[i].flippingNumber;
                         firstData.C7sl1 = c7Data;
@@ -100,12 +100,12 @@ namespace metro
                 firstData.CpuLoad = loadDataSet.cpuLoad;
                 firstData.SpxCPULoad = loadDataSet.spxCpuLoad;
 
-                if (loadDataSet.saeOverflowList.Count == 0)
+                if(loadDataSet.saeOverflowList.Count == 0)
                 {
                     firstData.SaxOverFlowCount = "PASS";
                 }
 
-                if (loadDataSet.c7sl1List.Count == 0)
+                if(loadDataSet.c7sl1List.Count == 0)
                 {
                     firstData.C7sl1 = "PASS";
                 }
@@ -113,9 +113,9 @@ namespace metro
                 Items.Add(firstData);
             }
 
-            for (int i = 0; i < Items.Count; i++)
+            for(int i = 0; i < Items.Count; i++)
             {
-                if (i > 0)
+                if(i > 0)
                 {
                     Items[i].SpxCPULoad = "";
                     Items[i].CpuLoad = "";

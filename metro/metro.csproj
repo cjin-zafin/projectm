@@ -68,6 +68,7 @@
       <DependentUpon>CUDBOne.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processors\HSSProcessor.cs" />
+    <Compile Include="SettingsData.cs" />
     <Compile Include="Validators\DimensionForeground.cs" />
     <Compile Include="Processors\HlrFileProcess.cs" />
     <Compile Include="Pages\HLEOne.xaml.cs">

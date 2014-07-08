@@ -24,6 +24,8 @@ namespace metro
         public CUDBOne()
         {
             InitializeComponent();
+
+
         }
 
         protected class FirstGridData
@@ -64,6 +66,11 @@ namespace metro
 
             secondData.Add(sd);
             secondGrid.ItemsSource = secondData;
+        }
+
+        private void CUDB1_Loaded(object sender, RoutedEventArgs e)
+        {
+            logAddress.Text = SettingsData.location;
         }
     }
 }

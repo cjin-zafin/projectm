@@ -18,11 +18,11 @@ namespace metro
             set
             {
                 passed = value;
-                if (PropertyChanged != null)
+                if(PropertyChanged != null)
                 {
                     tab1.IsEnabled = true;
                 }
-                    
+
             }
         }
         public static bool passed;
@@ -36,7 +36,7 @@ namespace metro
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            SettingsData.location = "F:\\ProjectMTest\\log";
         }
     }
 }
