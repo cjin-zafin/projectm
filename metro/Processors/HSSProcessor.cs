@@ -124,7 +124,9 @@ namespace metro.Processors
                 EsmExtDbSearchRequests = processThridlineData(EsmExtDbSearchRequestsLine, lines);
                 double extDbSearchRatio = calculateRatio(EsmExtDbSearchSuccessResponses, EsmExtDbSearchRequests);
 
-                hsData.
+                hsData.sentAuthenticationInfo = mapRatio.ToString("0.00");
+                hsData.exDbModify = extDbRatio.ToString("0.00");
+                hsData.exDbSearch = extDbSearchRatio.ToString("0.00");
             }
         }
 
