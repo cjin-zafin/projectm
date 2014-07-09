@@ -31,13 +31,6 @@ namespace metro
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
-            HSSProcessor hsProcessor = new HSSProcessor();
-            String file = "F:\\ProjectMTest\\log\\HSS\\A20140625.0000-0015_MIYHSS01FE01BER_HSS-ESM";
-            List<String> files = new List<string>();
-            files.Add(file);
-            hsProcessor.processHssFileSet(files);
-
-
             HlrFileProcess hlrFileProcess = new HlrFileProcess();
             LoadDataSet loadDataSet = hlrFileProcess.processHLRLogFile("F:\\ProjectMTest\\log\\2014-06-30-10-HLRFE01ERROR.txt");
             //Debug.WriteLine("cpu load = " + loadDataSet.cpuLoad + "\n");

@@ -157,6 +157,8 @@ namespace metro.Processors
                 hsData.sentAuthenticationInfo = mapRatio.ToString("0.00");
                 hsData.exDbModify = extDbRatio.ToString("0.00");
                 hsData.exDbSearch = extDbSearchRatio.ToString("0.00");
+                hsData.updateLocation = updateRatio.ToString("0.00");
+                hsData.cancelLocation = cancelRatio.ToString("0.00");
             }
         }
 
