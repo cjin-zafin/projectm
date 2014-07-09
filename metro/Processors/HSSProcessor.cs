@@ -49,11 +49,11 @@ namespace metro.Processors
 
         private void processEsmFile(HssDataSet hsData, string filePath)
         {
-            //HssS6aUpdateLocationRequests
-            //HssS6aUpdateLocationAnswersDiaSuccess
+            String HssS6aUpdateLocationRequests = "HssS6aUpdateLocationRequests";
+            String HssS6aUpdateLocationAnswersDiaSuccess = "HssS6aUpdateLocationAnswersDiaSuccess";
 
-            //HssS6aCancelLocationRequests
-            //HssS6aCancelLocationAnswersDiaSuccess
+            String HssS6aCancelLocationRequests = "HssS6aCancelLocationRequests";
+            String HssS6aCancelLocationAnswersDiaSuccess = "HssS6aCancelLocationAnswersDiaSuccess";
 
             String EsmMapSaiRequests = "EsmMapSaiRequests";
             String EsmMapSaiSuccessResponses = "EsmMapSaiSuccessResponses";
@@ -70,6 +70,12 @@ namespace metro.Processors
             int EsmExtDbModifyRequestsLine = 0;
             int EsmExtDbSearchSuccessResponsesLine = 0;
             int EsmExtDbSearchRequestsLine = 0;
+
+            int HssS6aUpdateLocationRequestsLine = 0;
+            int HssS6aUpdateLocationAnswersDiaSuccessLine = 0;
+
+            int HssS6aCancelLocationRequestsLine = 0;
+            int HssS6aCancelLocationAnswersDiaSuccessLine = 0;
 
 
 
@@ -110,9 +116,33 @@ namespace metro.Processors
                     {
                         EsmExtDbSearchRequestsLine = count;
                     }
+                    else if(line.Contains(HssS6aUpdateLocationRequests))
+                    {
+                        HssS6aUpdateLocationRequestsLine = count;
+                    }
+                    else if(line.Contains(HssS6aUpdateLocationAnswersDiaSuccess))
+                    {
+                        HssS6aUpdateLocationAnswersDiaSuccessLine = count;
+                    }
+                    else if(line.Contains(HssS6aCancelLocationRequests))
+                    {
+                        HssS6aCancelLocationRequestsLine = count;
+                    }
+                    else if(line.Contains(HssS6aCancelLocationAnswersDiaSuccess))
+                    {
+                        HssS6aCancelLocationAnswersDiaSuccessLine = count;
+                    }
 
                     count++;
                 }
+
+                HssS6aUpdateLocationRequests = processMiData(HssS6aUpdateLocationRequestsLine, lines);
+                HssS6aUpdateLocationAnswersDiaSuccess = processMiData(HssS6aUpdateLocationAnswersDiaSuccessLine, lines);
+                double updateRatio = calculateRatio(HssS6aUpdateLocationAnswersDiaSuccess, HssS6aUpdateLocationRequests);
+
+                HssS6aCancelLocationRequests = processMiData(HssS6aCancelLocationRequestsLine, lines);
+                HssS6aCancelLocationAnswersDiaSuccess = processMiData(HssS6aCancelLocationAnswersDiaSuccessLine, lines);
+                double cancelRatio = calculateRatio(HssS6aCancelLocationAnswersDiaSuccess, HssS6aCancelLocationRequests);
 
                 EsmMapSaiRequests = processThridlineData(EsmMapSaiRequestsLine, lines);
                 EsmMapSaiSuccessResponses = processThridlineData(EsmMapSaiSuccessResponsesLine, lines);
@@ -128,6 +158,46 @@ namespace metro.Processors
                 hsData.exDbModify = extDbRatio.ToString("0.00");
                 hsData.exDbSearch = extDbSearchRatio.ToString("0.00");
             }
+        }
+
+        private string processMiData(int HssS6aUpdateLocationRequestsLine, List<string> lines)
+        {
+            List<int> returnValues = new List<int>();
+
+            String xmlString = "";
+            String endLine = "</mi>";
+            int endLineCount = 0;
+            for(int i = HssS6aUpdateLocationRequestsLine - 3; i < lines.Count; i++)
+            {
+                xmlString += lines[i];
+
+                if(lines[i].Contains(endLine))
+                {
+                    endLineCount = i;
+                    break;
+                }
+            }
+
+            XmlReader lineReader = XmlReader.Create(new StringReader(xmlString));
+
+            while(lineReader.Read())
+            {
+                if(lineReader.NodeType == XmlNodeType.Element
+                   && lineReader.Name == "r")
+                {
+                    String value = lineReader.ReadString();
+
+                    returnValues.Add(int.Parse(value));
+                }
+            }
+
+            int retVal = 0;
+            foreach(int value in returnValues)
+            {
+                retVal += value;
+            }
+
+            return retVal.ToString();
         }
 
         private double calculateRatio(string EsmMapSaiSuccessResponses, string EsmMapSaiRequests)
