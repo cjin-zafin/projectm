@@ -35,11 +35,25 @@ namespace metro
         }
 
         private Hashtable nameAddressMap = new Hashtable();
+        private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
         public HSS()
         {
             InitializeComponent();
         }
+
+        private void on_browse(object sender, RoutedEventArgs e)
+        {
+            string folderName = "";
+
+            System.Windows.Forms.DialogResult result = browse.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                folderName = browse.SelectedPath;
+                logAddress.Text = folderName;
+            }
+        }
+
 
         private void onSearch()
         {
@@ -60,7 +74,7 @@ namespace metro
         {
             logAddress.Text = SettingsData.location;
             analyzeButton.IsEnabled = false;
-            onSearch();
+            //onSearch();
         }
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
@@ -101,6 +115,11 @@ namespace metro
 
             secondList.Add(sgd);
             secondGrid.ItemsSource = secondList;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            onSearch();
         }
     }
 }
