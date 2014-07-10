@@ -16,17 +16,22 @@ namespace metro
 
 
             string[] datas = input.Split('/');
-            int req = int.Parse(datas[0]);
-            int gen = int.Parse(datas[1]);
+            if (datas[0] != null && datas[1] != null && !datas[0].Equals("") && !datas[0].Equals(""))
+            {
+                int req = int.Parse(datas[0]);
+                int gen = int.Parse(datas[1]);
 
-            if (req != gen)
-            {
-                return "White";
+                if (req != gen)
+                {
+                    return "Red";
+                }
+                else
+                {
+                    return "Blue";
+                }
             }
-            else
-            {
-                return "Blue";
-            }
+
+            return "Blue";
 
         }
 

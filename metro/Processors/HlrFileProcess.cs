@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,55 +42,72 @@ namespace metro.Processors
 
         public LoadDataSet processHLRLogFile(String filePath)
         {
-            System.IO.StreamReader file =
-                    new System.IO.StreamReader(filePath);
-
-            List<string> fileLines = new List<string>();
-            string line;
-
-            int count = 0;
-            List<int> accLoadLineNumbers = new List<int>();
-            List<int> saeLineNumbers = new List<int>();
-            List<int> c7LineNumbers = new List<int>();
-            List<int> authenLineNumbers = new List<int>();
-            while ((line = file.ReadLine()) != null)
+            if (filePath != null && File.Exists(filePath))
             {
-                fileLines.Add(line);
-                if (line.Contains("SAE"))
+                System.IO.StreamReader file =
+                        new System.IO.StreamReader(filePath);
+
+                List<string> fileLines = new List<string>();
+                string line;
+
+                int count = 0;
+                List<int> accLoadLineNumbers = new List<int>();
+                List<int> saeLineNumbers = new List<int>();
+                List<int> c7LineNumbers = new List<int>();
+                List<int> authenLineNumbers = new List<int>();
+                while ((line = file.ReadLine()) != null)
                 {
-                    saeLineNumbers.Add(count);
+                    fileLines.Add(line);
+                    if (line.Contains("SAE"))
+                    {
+                        saeLineNumbers.Add(count);
+                    }
+                    if (line.Contains("ACCLOAD"))
+                    {
+                        accLoadLineNumbers.Add(count);
+                    }
+                    if (line.Contains("C7SL1"))
+                    {
+                        c7LineNumbers.Add(count);
+                    }
+                    if (line.Contains("AUTHEN"))
+                    {
+                        authenLineNumbers.Add(count);
+                    }
+                    count++;
                 }
-                if (line.Contains("ACCLOAD"))
+
+                file.Close();
+
+                if (fileLines.Count > 30)
                 {
-                    accLoadLineNumbers.Add(count);
+                    String cpuLoad = processCPULoad(fileLines, accLoadLineNumbers);
+                    String spxCpuLoad = processSPXLoad(fileLines, accLoadLineNumbers);
+                    List<SAEOverflow> saeList = processSaeList(fileLines, saeLineNumbers);
+                    List<C7SL1> c7List = processC7List(fileLines, c7LineNumbers);
+                    LastAuth lastAuth = processLastAuth(fileLines, authenLineNumbers);
+
+                    loadedData.c7sl1List = c7List;
+                    loadedData.saeOverflowList = saeList;
+                    loadedData.cpuLoad = cpuLoad;
+                    loadedData.spxCpuLoad = spxCpuLoad;
+                    loadedData.lastAuth = lastAuth;
                 }
-                if (line.Contains("C7SL1"))
+                else
                 {
-                    c7LineNumbers.Add(count);
+                    loadedData.c7sl1List = new List<C7SL1>();
+                    loadedData.saeOverflowList = new List<SAEOverflow>();
+                    loadedData.cpuLoad = "N/A";
+                    loadedData.spxCpuLoad = "N/A";
                 }
-                if (line.Contains("AUTHEN"))
-                {
-                    authenLineNumbers.Add(count);
-                }
-                count++;
+
+
+                return this.loadedData;
             }
-
-            file.Close();
-
-            String cpuLoad = processCPULoad(fileLines, accLoadLineNumbers);
-            String spxCpuLoad = processSPXLoad(fileLines, accLoadLineNumbers);
-            List<SAEOverflow> saeList = processSaeList(fileLines, saeLineNumbers);
-            List<C7SL1> c7List = processC7List(fileLines, c7LineNumbers);
-            LastAuth lastAuth = processLastAuth(fileLines, authenLineNumbers);
-
-            loadedData.c7sl1List = c7List;
-            loadedData.saeOverflowList = saeList;
-            loadedData.cpuLoad = cpuLoad;
-            loadedData.spxCpuLoad = spxCpuLoad;
-            loadedData.lastAuth = lastAuth;
-
-
-            return this.loadedData;
+            else
+            {
+                return new LoadDataSet();
+            }
         }
 
         private LastAuth processLastAuth(List<string> fileLines, List<int> authenLineNumbers)

@@ -15,7 +15,7 @@
 
     <Grid Width="1062" Height="511" Name="mainGrid">
         <Button Content="Button" HorizontalAlignment="Left" Margin="34,28,0,0" VerticalAlignment="Top" Width="75"/>
-        <ListBox HorizontalAlignment="Left" Height="397" Margin="34,83,0,0" VerticalAlignment="Top" Width="215" BorderThickness="1"/>
+        <ListBox Name="listBox" HorizontalAlignment="Left" Height="397" Margin="34,83,0,0" VerticalAlignment="Top" Width="215" BorderThickness="1"/>
         <TextBox Name="logAddress" HorizontalAlignment="Left" Height="23" Margin="129,28,0,0" TextWrapping="Wrap" Text="Log文件夹地址" VerticalAlignment="Top" Width="239"
                  Controls:TextboxHelper.Watermark="Log文件夹地址"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>

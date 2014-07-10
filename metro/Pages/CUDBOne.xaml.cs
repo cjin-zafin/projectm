@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using metro.Processors;
+using System.Collections;
 
 namespace metro
 {
@@ -21,11 +22,11 @@ namespace metro
     /// </summary>
     public partial class CUDBOne : UserControl
     {
+        private Hashtable nameAddressMap = new Hashtable();
+
         public CUDBOne()
         {
             InitializeComponent();
-
-
         }
 
         protected class FirstGridData
@@ -71,6 +72,19 @@ namespace metro
         private void CUDB1_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
+            onSearch();
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            onSearch();
+        }
+
+        private void onSearch()
+        {
+            String logPathText = logAddress.Text;
+
+            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "CUDB01");
         }
     }
 }

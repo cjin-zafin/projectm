@@ -27,17 +27,17 @@ namespace metro.Processors
         {
             HssDataSet hsData = new HssDataSet();
 
-            foreach(String filePath in filePathes)
+            foreach (String filePath in filePathes)
             {
-                if(filePath.Contains("PlatformMeasures"))
+                if (filePath.Contains("PlatformMeasures"))
                 {
                     processPlatformMeasureFile(hsData, filePath);
                 }
-                else if(filePath.Contains("HSS-ESM"))
+                else if (filePath.Contains("HSS-ESM"))
                 {
                     processEsmFile(hsData, filePath);
                 }
-                else if(filePath.Contains("SS7Statistics"))
+                else if (filePath.Contains("SS7Statistics"))
                 {
                     processSs7File(hsData, filePath);
                 }
@@ -79,7 +79,7 @@ namespace metro.Processors
 
 
 
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 System.IO.StreamReader file =
                        new System.IO.StreamReader(filePath);
@@ -89,46 +89,46 @@ namespace metro.Processors
                 int count = 0;
 
                 string line;
-                while((line = file.ReadLine()) != null)
+                while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    if(line.Contains(EsmMapSaiRequests))
+                    if (line.Contains(EsmMapSaiRequests))
                     {
                         EsmMapSaiRequestsLine = count;
                     }
-                    else if(line.Contains(EsmMapSaiSuccessResponses))
+                    else if (line.Contains(EsmMapSaiSuccessResponses))
                     {
                         EsmMapSaiSuccessResponsesLine = count;
                     }
-                    else if(line.Contains(EsmExtDbModifySuccessResponses))
+                    else if (line.Contains(EsmExtDbModifySuccessResponses))
                     {
                         EsmExtDbModifySuccessResponsesLine = count;
                     }
-                    else if(line.Contains(EsmExtDbModifyRequests))
+                    else if (line.Contains(EsmExtDbModifyRequests))
                     {
                         EsmExtDbModifyRequestsLine = count;
                     }
-                    else if(line.Contains(EsmExtDbSearchSuccessResponses))
+                    else if (line.Contains(EsmExtDbSearchSuccessResponses))
                     {
                         EsmExtDbSearchSuccessResponsesLine = count;
                     }
-                    else if(line.Contains(EsmExtDbSearchRequests))
+                    else if (line.Contains(EsmExtDbSearchRequests))
                     {
                         EsmExtDbSearchRequestsLine = count;
                     }
-                    else if(line.Contains(HssS6aUpdateLocationRequests))
+                    else if (line.Contains(HssS6aUpdateLocationRequests))
                     {
                         HssS6aUpdateLocationRequestsLine = count;
                     }
-                    else if(line.Contains(HssS6aUpdateLocationAnswersDiaSuccess))
+                    else if (line.Contains(HssS6aUpdateLocationAnswersDiaSuccess))
                     {
                         HssS6aUpdateLocationAnswersDiaSuccessLine = count;
                     }
-                    else if(line.Contains(HssS6aCancelLocationRequests))
+                    else if (line.Contains(HssS6aCancelLocationRequests))
                     {
                         HssS6aCancelLocationRequestsLine = count;
                     }
-                    else if(line.Contains(HssS6aCancelLocationAnswersDiaSuccess))
+                    else if (line.Contains(HssS6aCancelLocationAnswersDiaSuccess))
                     {
                         HssS6aCancelLocationAnswersDiaSuccessLine = count;
                     }
@@ -154,11 +154,11 @@ namespace metro.Processors
                 EsmExtDbSearchRequests = processThridlineData(EsmExtDbSearchRequestsLine, lines);
                 double extDbSearchRatio = calculateRatio(EsmExtDbSearchSuccessResponses, EsmExtDbSearchRequests);
 
-                hsData.sentAuthenticationInfo = mapRatio.ToString("0.00");
-                hsData.exDbModify = extDbRatio.ToString("0.00");
-                hsData.exDbSearch = extDbSearchRatio.ToString("0.00");
-                hsData.updateLocation = updateRatio.ToString("0.00");
-                hsData.cancelLocation = cancelRatio.ToString("0.00");
+                hsData.sentAuthenticationInfo = mapRatio.ToString("#0.##%");
+                hsData.exDbModify = extDbRatio.ToString("#0.##%");
+                hsData.exDbSearch = extDbSearchRatio.ToString("#0.##%");
+                hsData.updateLocation = updateRatio.ToString("#0.##%");
+                hsData.cancelLocation = cancelRatio.ToString("#0.##%");
             }
         }
 
@@ -169,11 +169,11 @@ namespace metro.Processors
             String xmlString = "";
             String endLine = "</mi>";
             int endLineCount = 0;
-            for(int i = HssS6aUpdateLocationRequestsLine - 3; i < lines.Count; i++)
+            for (int i = HssS6aUpdateLocationRequestsLine - 3; i < lines.Count; i++)
             {
                 xmlString += lines[i];
 
-                if(lines[i].Contains(endLine))
+                if (lines[i].Contains(endLine))
                 {
                     endLineCount = i;
                     break;
@@ -182,9 +182,9 @@ namespace metro.Processors
 
             XmlReader lineReader = XmlReader.Create(new StringReader(xmlString));
 
-            while(lineReader.Read())
+            while (lineReader.Read())
             {
-                if(lineReader.NodeType == XmlNodeType.Element
+                if (lineReader.NodeType == XmlNodeType.Element
                    && lineReader.Name == "r")
                 {
                     String value = lineReader.ReadString();
@@ -194,7 +194,7 @@ namespace metro.Processors
             }
 
             int retVal = 0;
-            foreach(int value in returnValues)
+            foreach (int value in returnValues)
             {
                 retVal += value;
             }
@@ -204,7 +204,7 @@ namespace metro.Processors
 
         private double calculateRatio(string EsmMapSaiSuccessResponses, string EsmMapSaiRequests)
         {
-            if(EsmMapSaiRequests != null && EsmMapSaiSuccessResponses != null)
+            if (EsmMapSaiRequests != null && EsmMapSaiSuccessResponses != null)
             {
                 double ratio = double.Parse(EsmMapSaiSuccessResponses) / double.Parse(EsmMapSaiRequests);
 
@@ -222,9 +222,9 @@ namespace metro.Processors
 
             XmlReader thirdLineReader = XmlReader.Create(new StringReader(thirdLine));
 
-            while(thirdLineReader.Read())
+            while (thirdLineReader.Read())
             {
-                if(thirdLineReader.NodeType == XmlNodeType.Element
+                if (thirdLineReader.NodeType == XmlNodeType.Element
                    && thirdLineReader.Name == "r")
                 {
                     thirdLineValue = thirdLineReader.ReadString();
@@ -236,7 +236,7 @@ namespace metro.Processors
 
         private void processSs7File(HssDataSet hsData, string filePath)
         {
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 System.IO.StreamReader file =
                       new System.IO.StreamReader(filePath);
@@ -248,14 +248,14 @@ namespace metro.Processors
                 int count = 0;
 
                 string line;
-                while((line = file.ReadLine()) != null)
+                while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    if(line.Contains("tsp.sctp.data_chunk_received"))
+                    if (line.Contains("tsp.sctp.data_chunk_received"))
                     {
                         receiveLineNumber = count;
                     }
-                    else if(line.Contains("tsp.sctp.data_chunk_sent"))
+                    else if (line.Contains("tsp.sctp.data_chunk_sent"))
                     {
                         sendLineNumber = count;
                     }
@@ -274,9 +274,9 @@ namespace metro.Processors
                 XmlReader sentReader = XmlReader.Create(new StringReader(sent));
                 XmlReader receivedReader = XmlReader.Create(new StringReader(received));
 
-                while(sentReader.Read())
+                while (sentReader.Read())
                 {
-                    if(sentReader.NodeType == XmlNodeType.Element
+                    if (sentReader.NodeType == XmlNodeType.Element
                        && sentReader.Name == "r")
                     {
                         //Debug.WriteLine(sentReader.ReadString() + " sent \n");
@@ -284,9 +284,9 @@ namespace metro.Processors
                     }
                 }
 
-                while(receivedReader.Read())
+                while (receivedReader.Read())
                 {
-                    if(receivedReader.NodeType == XmlNodeType.Element
+                    if (receivedReader.NodeType == XmlNodeType.Element
                        && receivedReader.Name == "r")
                     {
                         //Debug.WriteLine(receivedReader.ReadString() + " receive \n");
@@ -294,17 +294,17 @@ namespace metro.Processors
                     }
                 }
 
-                if(sentValue != null && receivedValue != null)
+                if (sentValue != null && receivedValue != null)
                 {
                     int ratio = int.Parse(receivedValue) / int.Parse(sentValue);
-                    hsData.sctpResendRate = ratio.ToString();
+                    hsData.sctpResendRate = ratio.ToString("#0.##%");
                 }
             }
         }
 
         private void processPlatformMeasureFile(HssDataSet hsData, String filePath)
         {
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 System.IO.StreamReader file =
                        new System.IO.StreamReader(filePath);
@@ -315,10 +315,10 @@ namespace metro.Processors
                 int count = 0;
 
                 string line;
-                while((line = file.ReadLine()) != null)
+                while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    if(line.Contains("PlatformMeasures=DEFAULT, Source = _SYSTEM"))
+                    if (line.Contains("PlatformMeasures=DEFAULT, Source = _SYSTEM"))
                     {
                         systemLineNumber = count;
                     }
@@ -332,23 +332,23 @@ namespace metro.Processors
                 XmlReader maxCpuReader = XmlReader.Create(new StringReader(maxCpu));
                 XmlReader maxMemReader = XmlReader.Create(new StringReader(maxMem));
 
-                while(maxCpuReader.Read())
+                while (maxCpuReader.Read())
                 {
-                    if(maxCpuReader.NodeType == XmlNodeType.Element
+                    if (maxCpuReader.NodeType == XmlNodeType.Element
                        && maxCpuReader.Name == "r")
                     {
-                        //Debug.WriteLine(maxCpuReader.ReadString() + " max \n");
-                        hsData.maxCpuLoad = maxCpuReader.ReadString();
+                        String cpu = maxCpuReader.ReadString();
+                        hsData.maxCpuLoad = (double.Parse(cpu)/100).ToString("#0.##%");
                     }
                 }
 
-                while(maxMemReader.Read())
+                while (maxMemReader.Read())
                 {
-                    if(maxMemReader.NodeType == XmlNodeType.Element
+                    if (maxMemReader.NodeType == XmlNodeType.Element
                        && maxMemReader.Name == "r")
                     {
-                        //Debug.WriteLine(maxMemReader.ReadString() + " mem \n");
-                        hsData.MaxMemUsage = maxMemReader.ReadString();
+                        String mem = maxMemReader.ReadString();
+                        hsData.MaxMemUsage = (double.Parse(mem)/100).ToString("#0.##%");
                     }
                 }
             }

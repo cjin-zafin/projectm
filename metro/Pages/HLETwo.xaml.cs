@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using metro.Processors;
+using System.Collections;
 
 namespace metro
 {
@@ -22,6 +23,8 @@ namespace metro
     /// </summary>
     public partial class HLETwo : UserControl
     {
+        private Hashtable nameAddressMap = new Hashtable();
+
         private void INotifyPropertyChanged(string p)
         {
         }
@@ -34,32 +37,70 @@ namespace metro
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
+            String fileName = FileHelper.getFileName(listBox.SelectedValue);
+
             HlrFileProcess hlrFileProcess = new HlrFileProcess();
-            LoadDataSet loadDataSet = hlrFileProcess.processHLRLogFile("F:\\ProjectMTest\\log\\2014-06-30-10-HLRFE01ERROR.txt");
-            //Debug.WriteLine("cpu load = " + loadDataSet.cpuLoad + "\n");
-            //Debug.WriteLine("SPX CPU LOAD = " + loadDataSet.spxCpuLoad + "\n");
+            var item = nameAddressMap[fileName];
 
-            populateSecondGrid(loadDataSet);
-
-            List<FirstGridData> Items = new List<FirstGridData>();
-
-            int rowCount = 0;
-
-
-            if (loadDataSet.saeOverflowList.Count > loadDataSet.c7sl1List.Count)
+            if (item != null)
             {
-                rowCount = loadDataSet.saeOverflowList.Count;
-            }
-            else
-            {
-                rowCount = loadDataSet.c7sl1List.Count;
-            }
+                String filePath = item.ToString();
 
-            if (rowCount != 0)
-            {
-                loadDataGrid.Height = 167;
-                for (int i = 0; i < rowCount; i++)
+                LoadDataSet loadDataSet = hlrFileProcess.processHLRLogFile(filePath);
+
+                List<FirstGridData> Items = new List<FirstGridData>();
+
+                populateSecondGrid(loadDataSet);
+
+
+                int rowCount = 0;
+
+
+                if (loadDataSet.saeOverflowList.Count > loadDataSet.c7sl1List.Count)
                 {
+                    rowCount = loadDataSet.saeOverflowList.Count;
+                }
+                else
+                {
+                    rowCount = loadDataSet.c7sl1List.Count;
+                }
+
+                if (rowCount != 0)
+                {
+                    loadDataGrid.Height = 167;
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        FirstGridData firstData = new FirstGridData();
+                        firstData.CpuLoad = loadDataSet.cpuLoad;
+                        firstData.SpxCPULoad = loadDataSet.spxCpuLoad;
+
+                        if (loadDataSet.saeOverflowList.Count == 0)
+                        {
+                            firstData.SaxOverFlowCount = "PASS";
+                        }
+                        else if (i < loadDataSet.saeOverflowList.Count)
+                        {
+                            String saeData = loadDataSet.saeOverflowList[i].saeMachineName + " = " + loadDataSet.saeOverflowList[i].overflowNumber;
+                            firstData.SaxOverFlowCount = saeData;
+                        }
+
+                        if (loadDataSet.c7sl1List.Count == 0)
+                        {
+                            firstData.C7sl1 = "PASS";
+                        }
+                        else if (i < loadDataSet.c7sl1List.Count)
+                        {
+                            String c7Data = loadDataSet.c7sl1List[i].c7Name + " = " + loadDataSet.c7sl1List[i].flippingNumber;
+                            firstData.C7sl1 = c7Data;
+                        }
+
+                        Items.Add(firstData);
+                    }
+                }
+                else
+                {
+                    loadDataGrid.Height = 80;
+
                     FirstGridData firstData = new FirstGridData();
                     firstData.CpuLoad = loadDataSet.cpuLoad;
                     firstData.SpxCPULoad = loadDataSet.spxCpuLoad;
@@ -68,57 +109,27 @@ namespace metro
                     {
                         firstData.SaxOverFlowCount = "PASS";
                     }
-                    else if (i < loadDataSet.saeOverflowList.Count)
-                    {
-                        String saeData = loadDataSet.saeOverflowList[i].saeMachineName + " = " + loadDataSet.saeOverflowList[i].overflowNumber;
-                        firstData.SaxOverFlowCount = saeData;
-                    }
 
                     if (loadDataSet.c7sl1List.Count == 0)
                     {
                         firstData.C7sl1 = "PASS";
                     }
-                    else if (i < loadDataSet.c7sl1List.Count)
-                    {
-                        String c7Data = loadDataSet.c7sl1List[i].c7Name + " = " + loadDataSet.c7sl1List[i].flippingNumber;
-                        firstData.C7sl1 = c7Data;
-                    }
 
                     Items.Add(firstData);
                 }
-            }
-            else
-            {
-                loadDataGrid.Height = 80;
 
-                FirstGridData firstData = new FirstGridData();
-                firstData.CpuLoad = loadDataSet.cpuLoad;
-                firstData.SpxCPULoad = loadDataSet.spxCpuLoad;
-
-                if (loadDataSet.saeOverflowList.Count == 0)
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    firstData.SaxOverFlowCount = "PASS";
+                    if (i > 0)
+                    {
+                        Items[i].SpxCPULoad = "";
+                        Items[i].CpuLoad = "";
+                    }
                 }
 
-                if (loadDataSet.c7sl1List.Count == 0)
-                {
-                    firstData.C7sl1 = "PASS";
-                }
 
-                Items.Add(firstData);
+                loadDataGrid.ItemsSource = Items;
             }
-
-            for (int i = 0; i < Items.Count; i++)
-            {
-                if (i > 0)
-                {
-                    Items[i].SpxCPULoad = "";
-                    Items[i].CpuLoad = "";
-                }
-            }
-
-
-            loadDataGrid.ItemsSource = Items;
         }
 
         public class FirstGridData
@@ -156,6 +167,24 @@ namespace metro
             secondGridData.Add(data);
 
             secondGrid.ItemsSource = secondGridData;
+        }
+
+        private void HLETwo_Loaded(object sender, RoutedEventArgs e)
+        {
+            logAddress.Text = SettingsData.location;
+            onSearch();
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            onSearch();
+        }
+
+        private void onSearch()
+        {
+            String logPathText = logAddress.Text;
+
+            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE02");
         }
     }
 }
