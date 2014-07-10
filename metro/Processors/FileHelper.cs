@@ -64,6 +64,7 @@ namespace metro.Processors
                     ListBoxItem item = new ListBoxItem();
                     item.ToolTip = file;
                     item.Content = fileName;
+
                     // item.
                     //item.Selected(On_List_Selection);
 
