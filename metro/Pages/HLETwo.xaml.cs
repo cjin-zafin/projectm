@@ -172,6 +172,7 @@ namespace metro
         private void HLETwo_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
+            analyzeButton.IsEnabled = false;
             onSearch();
         }
 
@@ -185,6 +186,14 @@ namespace metro
             String logPathText = logAddress.Text;
 
             FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE02");
+        }
+
+        private void On_List_Selection(object sender, RoutedEventArgs e)
+        {
+            if (listBox.SelectedItems.Count != 0)
+            {
+                analyzeButton.IsEnabled = true;
+            }
         }
     }
 }

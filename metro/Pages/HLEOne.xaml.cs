@@ -22,11 +22,12 @@ namespace metro
     public partial class HLEOne : UserControl
     {
         private Hashtable nameAddressMap = new Hashtable();
+        private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
         private void HLEOne_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
-
+            analyzeButton.IsEnabled = false;
             onSearch();
         }
 
@@ -186,6 +187,26 @@ namespace metro
 
             FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE01");
 
+        }
+
+        private void On_List_Selection(object sender, RoutedEventArgs e)
+        {
+            if (listBox.SelectedItems.Count != 0)
+            {
+                analyzeButton.IsEnabled = true;
+            }
+        }
+
+        private void on_browse(object sender, RoutedEventArgs e)
+        {
+            string folderName = "";
+
+            System.Windows.Forms.DialogResult result = browse.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                folderName = browse.SelectedPath;
+                logAddress.Text = folderName;
+            }
         }
     }
 }

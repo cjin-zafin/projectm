@@ -1,5 +1,6 @@
 ﻿using metro.Processors;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,13 +34,36 @@ namespace metro
             public String extDbSearch { get; set; }
         }
 
+        private Hashtable nameAddressMap = new Hashtable();
 
         public HSS()
         {
             InitializeComponent();
         }
 
-        private void analyzeButton_Click(object sender, RoutedEventArgs e)
+        private void onSearch()
+        {
+            String logPathText = logAddress.Text;
+
+            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HSS");
+        }
+
+        private void On_List_Selection(object sender, RoutedEventArgs e)
+        {
+            if (listBox.SelectedItems.Count != 0)
+            {
+                analyzeButton.IsEnabled = true;
+            }
+        }
+
+        private void On_Load(object sender, RoutedEventArgs e)
+        {
+            logAddress.Text = SettingsData.location;
+            analyzeButton.IsEnabled = false;
+            onSearch();
+        }
+
+        private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
             HSSProcessor hsProcessor = new HSSProcessor();
             String file = "F:\\ProjectMTest\\log\\HSS\\A20140625.0000-0015_MIYHSS01FE01BER_HSS-ESM";

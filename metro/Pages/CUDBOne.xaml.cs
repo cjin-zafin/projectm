@@ -17,9 +17,6 @@ using System.Collections;
 
 namespace metro
 {
-    /// <summary>
-    /// Interaction logic for CUDBOne.xaml
-    /// </summary>
     public partial class CUDBOne : UserControl
     {
         private Hashtable nameAddressMap = new Hashtable();
@@ -46,8 +43,12 @@ namespace metro
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
+            String fileName = FileHelper.getFileName(listBox.SelectedValue);
+            var item = nameAddressMap[fileName];
+            String filePath = item.ToString();
+
             CudbFileProcess cudbFileProcess = new CudbFileProcess();
-            CudbDataSet loadDataSet = cudbFileProcess.processCudbLogFile("F:\\ProjectMTest\\log\\2014-06-26-12-CUDB01.txt");
+            CudbDataSet loadDataSet = cudbFileProcess.processCudbLogFile(filePath);
 
             List<FirstGridData> firstData = new List<FirstGridData>();
             FirstGridData fd = new FirstGridData();
@@ -72,7 +73,16 @@ namespace metro
         private void CUDB1_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
+            analyzeButton.IsEnabled = false;
             onSearch();
+        }
+
+        private void On_List_Selection(object sender, RoutedEventArgs e)
+        {
+            if (listBox.SelectedItems.Count != 0)
+            {
+                analyzeButton.IsEnabled = true;
+            }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
