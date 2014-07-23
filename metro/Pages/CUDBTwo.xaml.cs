@@ -15,14 +15,17 @@ using System.Windows.Shapes;
 using metro.Processors;
 using System.Collections;
 
-namespace metro
+namespace metro.Pages
 {
-    public partial class CUDBOne : UserControl
+    /// <summary>
+    /// Interaction logic for CUDBTwo.xaml
+    /// </summary>
+    public partial class CUDBTwo : UserControl
     {
         private Hashtable nameAddressMap = new Hashtable();
         private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
-        public CUDBOne()
+        public CUDBTwo()
         {
             InitializeComponent();
         }
@@ -88,7 +91,7 @@ namespace metro
             secondGrid.ItemsSource = secondData;
         }
 
-        private void CUDB1_Loaded(object sender, RoutedEventArgs e)
+        private void CUDB2_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
             analyzeButton.IsEnabled = false;
@@ -112,7 +115,7 @@ namespace metro
         {
             String logPathText = logAddress.Text;
 
-            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "CUDB01");
+            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "CUDB02");
 
             if (!listBox.Items.IsEmpty)
             {

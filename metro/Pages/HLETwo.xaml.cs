@@ -50,6 +50,11 @@ namespace metro
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
         {
+            analyzeNow();
+        }
+
+        private void analyzeNow()
+        {
             String fileName = FileHelper.getFileName(listBox.SelectedValue);
 
             HlrFileProcess hlrFileProcess = new HlrFileProcess();
@@ -199,6 +204,12 @@ namespace metro
             String logPathText = logAddress.Text;
 
             FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE02");
+
+            if (!listBox.Items.IsEmpty)
+            {
+                listBox.SelectedIndex = 0;
+                analyzeNow();
+            }
         }
 
         private void On_List_Selection(object sender, RoutedEventArgs e)

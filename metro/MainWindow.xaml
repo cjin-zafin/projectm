@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:metro="clr-namespace:metro"
+        xmlns:Pages="clr-namespace:metro.Pages"
         Title="LOG 分析器" Height="600" Width="1080" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
                       Loaded="MainPage_Loaded"
                       BorderThickness="1,1,1,1" BorderBrush="#FF086F9E">
@@ -17,10 +18,11 @@
         <TabItem Header="HSS 机">
             <metro:HSS Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="CUDB 2">
-        </TabItem>
         <TabItem Header="HLR-FE 2">
             <metro:HLETwo Width="1062" Height="511" DataContext="{Binding}" />
+        </TabItem>
+        <TabItem Header="CUDB 2">
+            <Pages:CUDBTwo Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
     </Controls:MetroAnimatedSingleRowTabControl>
 </Controls:MetroWindow>

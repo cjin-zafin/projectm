@@ -65,9 +65,6 @@ namespace metro.Processors
                     item.ToolTip = file;
                     item.Content = fileName;
 
-                    // item.
-                    //item.Selected(On_List_Selection);
-
                     listBox.Items.Add(item);
                 }
             }
