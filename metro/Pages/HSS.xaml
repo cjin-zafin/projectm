@@ -11,43 +11,82 @@
     <UserControl.Resources>
         <metro:DimensionBackGroundValidator x:Key="DimensionBackGroundValidator"/>
         <metro:DimensionForeground x:Key="DimensionForeground"/>
+        <metro:SpxValidator x:Key="SpxValidator"/>
+        <metro:S6aValidator x:Key="S6aValidator"/>
+        <metro:SCTPResentValidator x:Key="SCTPResentValidator"/>
     </UserControl.Resources>
     
     <Grid Width="1062" Height="511" >
-        <Button FontFamily="Arial Black" FontSize="14" Content="刷新" HorizontalAlignment="Left" Margin="34,28,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button FontFamily="Arial Black" FontSize="14" Content="刷新" HorizontalAlignment="Left" Margin="34,28,0,0" VerticalAlignment="Top" Width="75" Click="SearchButton_Click"/>
         <ListBox Name="listBox" MouseLeftButtonUp="On_List_Selection" HorizontalAlignment="Left" Height="397" Margin="34,83,0,0" VerticalAlignment="Top" Width="215" BorderThickness="1"/>
         <TextBox Name="logAddress" HorizontalAlignment="Left" Height="23" Margin="129,28,0,0" TextWrapping="Wrap" Text="Log文件夹地址" VerticalAlignment="Top" Width="239"
                  Controls:TextboxHelper.Watermark="Log文件夹地址"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>
+        <Button Click="on_browse" Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>
         <Button Name="analyzeButton" Content="解析" Click="analyzeButton_click" HorizontalAlignment="Left" Margin="265,250,0,0" VerticalAlignment="Top" Width="76" Height="46" RenderTransformOrigin="0.441,-0.25" FontFamily="Arial Black" FontSize="14"/>
         <DataGrid Name="firstGrid" Width="693" Margin="359,83,10,0" VerticalAlignment="Top" Height="79" AutoGenerateColumns="False" 
                   SelectionMode="Single" CanUserResizeRows="False" CanUserAddRows="False" SelectionUnit="Cell">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="最大CPU载荷" Width="170" Binding="{Binding cpu}" CanUserSort="False" IsReadOnly="True" Foreground="#FF003FE8"/>
+                <DataGridTextColumn Header="最大CPU载荷" Width="170" Binding="{Binding cpu}" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding cpu, Converter={StaticResource SpxValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="最大内存使用" CanUserSort="False" 
-                                Binding="{Binding mem}" Width="170" IsReadOnly="True" Foreground="#FF003FE8"/>
-                <DataGridTextColumn Header="S6a 更新地址" Width="170" IsReadOnly="True" 
-                                Binding="{Binding s6aUpdate}" Foreground="#FF003FE8"/>
-                <DataGridTextColumn Header="S6a 取消地址" Width="170" IsReadOnly="True" 
-                                Binding="{Binding s6aCancel}" Foreground="#FF1650EA"/>
+                                Binding="{Binding mem}" Width="170" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding mem, Converter={StaticResource SpxValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="S6a 更新地址" Width="170" IsReadOnly="True" Binding="{Binding s6aUpdate}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding s6aUpdate, Converter={StaticResource S6aValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="S6a 取消地址" Width="180" IsReadOnly="True" Binding="{Binding s6aCancel}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding s6aCancel, Converter={StaticResource S6aValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Name="secondGrid" HorizontalAlignment="Left" Margin="359,327,0,0" VerticalAlignment="Top" Width="693" Height="74" AutoGenerateColumns="False" 
                   SelectionMode="Single" CanUserResizeRows="False" CanUserAddRows="False" SelectionUnit="Cell">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="认证信息发送" CanUserSort="False" 
-                                Binding="{Binding authInfo}" Width="231" IsReadOnly="True" Foreground="#FF003FE8"/>
-                <DataGridTextColumn Header="拓展数据库修改成功率" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding extDbModi}">
+                <DataGridTextColumn Header="SCTP重传率" CanUserSort="False" Binding="{Binding SCTPRate}" Width="170" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Background" Value="{Binding fiveDim, Converter={StaticResource DimensionBackGroundValidator}}"/>
-                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource DimensionForeground}}"/>
+                            <Setter Property="Foreground" Value="{Binding SCTPRate, Converter={StaticResource SCTPResentValidator}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="拓展数据库搜索成功率" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding extDbSearch}">
+                <DataGridTextColumn Header="认证信息发送" CanUserSort="False" Binding="{Binding authInfo}" Width="170" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding authInfo, Converter={StaticResource S6aValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="拓展数据库修改成功率" Width="170" IsReadOnly="True" CanUserReorder="False"  Binding="{Binding extDbModi}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding extDbModi, Converter={StaticResource S6aValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="拓展数据库搜索成功率" Width="180" IsReadOnly="True" CanUserReorder="False"  Binding="{Binding extDbSearch}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding extDbSearch, Converter={StaticResource S6aValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

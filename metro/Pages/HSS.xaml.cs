@@ -29,17 +29,32 @@ namespace metro
 
         protected class SecontGridData
         {
+            public String SCTPRate { get; set; }
             public String authInfo { get; set; }
             public String extDbModi { get; set; }
             public String extDbSearch { get; set; }
         }
 
         private Hashtable nameAddressMap = new Hashtable();
+        private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
         public HSS()
         {
             InitializeComponent();
         }
+
+        private void on_browse(object sender, RoutedEventArgs e)
+        {
+            string folderName = "";
+
+            System.Windows.Forms.DialogResult result = browse.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                folderName = browse.SelectedPath;
+                logAddress.Text = folderName;
+            }
+        }
+
 
         private void onSearch()
         {
@@ -60,7 +75,7 @@ namespace metro
         {
             logAddress.Text = SettingsData.location;
             analyzeButton.IsEnabled = false;
-            onSearch();
+            //onSearch();
         }
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)
@@ -95,12 +110,18 @@ namespace metro
             List<SecontGridData> secondList = new List<SecontGridData>();
             SecontGridData sgd = new SecontGridData();
 
+            sgd.SCTPRate = hss.sctpResendRate;
             sgd.authInfo = hss.sentAuthenticationInfo;
             sgd.extDbModi = hss.exDbModify;
             sgd.extDbSearch = hss.exDbSearch;
 
             secondList.Add(sgd);
             secondGrid.ItemsSource = secondList;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            onSearch();
         }
     }
 }

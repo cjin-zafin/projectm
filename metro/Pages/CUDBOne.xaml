@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <metro:DimensionBackGroundValidator x:Key="DimensionBackGroundValidator"/>
         <metro:DimensionForeground x:Key="DimensionForeground"/>
+        <metro:SpxValidator x:Key="SpxValidator"/>
     </UserControl.Resources>
 
     <Grid Width="1062" Height="511" Name="mainGrid">
@@ -18,7 +19,7 @@
         <ListBox MouseLeftButtonUp="On_List_Selection" Name="listBox" HorizontalAlignment="Left" Height="397" Margin="34,83,0,0" VerticalAlignment="Top" Width="215" BorderThickness="1"/>
         <TextBox Name="logAddress" HorizontalAlignment="Left" Height="23" Margin="129,28,0,0" TextWrapping="Wrap" Text="Log文件夹地址" VerticalAlignment="Top" Width="239"
                  Controls:TextboxHelper.Watermark="Log文件夹地址"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>
+        <Button Click="on_browse" Content="Button" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="25"/>
         <Button Name="analyzeButton" Content="解析" Click="analyzeButton_click" HorizontalAlignment="Left" Margin="265,250,0,0" VerticalAlignment="Top" Width="76" Height="46" RenderTransformOrigin="0.441,-0.25" FontFamily="Arial Black" FontSize="14"/>
         <DataGrid Name="firstGrid" Width="693" Margin="359,83,10,0" VerticalAlignment="Top" Height="79" AutoGenerateColumns="False" 
                   SelectionMode="Single" CanUserResizeRows="False" CanUserAddRows="False" SelectionUnit="Cell">
@@ -38,16 +39,10 @@
                 <DataGridTextColumn Header="2G 鉴权信息数量" CanUserSort="False" 
                                 Binding="{Binding TwoGAuthInfoCount}" Width="231" IsReadOnly="True" Foreground="#FF003FE8"/>
                 <DataGridTextColumn Header="3G 鉴权信息数量" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding ThreeGAuthInfoCount}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Background" Value="{Binding fiveDim, Converter={StaticResource DimensionBackGroundValidator}}"/>
-                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource DimensionForeground}}"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                                CanUserReorder="False"  Binding="{Binding ThreeGAuthInfoCount}" Foreground="#FF003FE8">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="4G 用户数" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding fourGUserCount}">
+                                CanUserReorder="False"  Binding="{Binding fourGUserCount}" Foreground="#FF003FE8">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

@@ -12,7 +12,9 @@
 
     <UserControl.Resources>
         <metro:DimensionBackGroundValidator x:Key="DimensionBackGroundValidator"/>
-        <metro:DimensionForeground x:Key="DimensionForeground"/>
+        <metro:DimensionForeground x:Key="FiveDimensionForeground"/>
+        <metro:SpxValidator x:Key="SpxValidator"/>
+        <metro:SaeValidator x:Key="SaeValidator"/>
     </UserControl.Resources>
     
     <Grid Width="1062" Height="511">
@@ -25,23 +27,47 @@
         <DataGrid Name="loadDataGrid" Width="693" Margin="359,83,10,0" VerticalAlignment="Top" Height="167" AutoGenerateColumns="False" 
                   SelectionMode="Single" CanUserResizeRows="False" CanUserAddRows="False" SelectionUnit="Cell">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="CPU 负荷" Width="170" Binding="{Binding CpuLoad}" CanUserSort="False" IsReadOnly="True" Foreground="#FF003FE8"/>
+                <DataGridTextColumn Header="CPU 负荷" Width="170" Binding="{Binding CpuLoad}" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding CpuLoad, Converter={StaticResource SpxValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="SPX CPU负荷" CanUserSort="False" 
-                                Binding="{Binding SpxCPULoad}" Width="170" IsReadOnly="True" Foreground="#FF003FE8"/>
+                                Binding="{Binding SpxCPULoad}" Width="170" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding SpxCPULoad, Converter={StaticResource SpxValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="SAE 溢出次数" Width="170" IsReadOnly="True" 
-                                Binding="{Binding SaxOverFlowCount}" Foreground="#FF003FE8"/>
+                                Binding="{Binding SaxOverFlowCount}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding SaxOverFlowCount, Converter={StaticResource SaeValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="C7SL1 信令翻转次数" Width="170" IsReadOnly="True" 
-                                Binding="{Binding C7sl1}" Foreground="#FF1650EA"/>
+                                Binding="{Binding C7sl1}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding C7sl1, Converter={StaticResource SaeValidator}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Name="secondGrid" HorizontalAlignment="Left" Margin="359,327,0,0" VerticalAlignment="Top" Width="693" Height="74" AutoGenerateColumns="False" 
                   SelectionMode="Single" CanUserResizeRows="False" CanUserAddRows="False" SelectionUnit="Cell">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="三元组请求数/三元组生成数" CanUserSort="False" 
-                                Binding="{Binding threeDim}" Width="347" IsReadOnly="True" Foreground="#FF003FE8">
+                                Binding="{Binding threeDim}" Width="347" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource DimensionForeground}}"/>
+                            <Setter Property="Foreground" Value="{Binding threeDim, Converter={StaticResource FiveDimensionForeground}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -49,7 +75,7 @@
                                 CanUserReorder="False"  Binding="{Binding fiveDim}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource DimensionForeground}}"/>
+                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource FiveDimensionForeground}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

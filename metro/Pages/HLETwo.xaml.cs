@@ -24,6 +24,7 @@ namespace metro
     public partial class HLETwo : UserControl
     {
         private Hashtable nameAddressMap = new Hashtable();
+        private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
         private void INotifyPropertyChanged(string p)
         {
@@ -33,6 +34,18 @@ namespace metro
         public HLETwo()
         {
             InitializeComponent();
+        }
+
+        private void on_browse(object sender, RoutedEventArgs e)
+        {
+            string folderName = "";
+
+            System.Windows.Forms.DialogResult result = browse.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                folderName = browse.SelectedPath;
+                logAddress.Text = folderName;
+            }
         }
 
         private void analyzeButton_click(object sender, RoutedEventArgs e)

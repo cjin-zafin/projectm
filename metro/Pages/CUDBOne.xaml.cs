@@ -20,10 +20,23 @@ namespace metro
     public partial class CUDBOne : UserControl
     {
         private Hashtable nameAddressMap = new Hashtable();
+        private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
 
         public CUDBOne()
         {
             InitializeComponent();
+        }
+
+        private void on_browse(object sender, RoutedEventArgs e)
+        {
+            string folderName = "";
+
+            System.Windows.Forms.DialogResult result = browse.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                folderName = browse.SelectedPath;
+                logAddress.Text = folderName;
+            }
         }
 
         protected class FirstGridData
