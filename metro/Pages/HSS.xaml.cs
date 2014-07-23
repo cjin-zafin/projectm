@@ -29,6 +29,7 @@ namespace metro
 
         protected class SecontGridData
         {
+            public String SCTPRate { get; set; }
             public String authInfo { get; set; }
             public String extDbModi { get; set; }
             public String extDbSearch { get; set; }
@@ -109,6 +110,7 @@ namespace metro
             List<SecontGridData> secondList = new List<SecontGridData>();
             SecontGridData sgd = new SecontGridData();
 
+            sgd.SCTPRate = hss.sctpResendRate;
             sgd.authInfo = hss.sentAuthenticationInfo;
             sgd.extDbModi = hss.exDbModify;
             sgd.extDbSearch = hss.exDbSearch;

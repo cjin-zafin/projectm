@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="Processors\HSSProcessor.cs" />
     <Compile Include="SettingsData.cs" />
-    <Compile Include="Validators\DimensionForeground.cs" />
+    <Compile Include="Validators\FiveDimensionForeground.cs" />
     <Compile Include="Processors\HlrFileProcess.cs" />
     <Compile Include="Pages\HLEOne.xaml.cs">
       <DependentUpon>HLEOne.xaml</DependentUpon>
@@ -112,6 +112,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validators\S6aValidator.cs" />
+    <Compile Include="Validators\SaeValidator.cs" />
+    <Compile Include="Validators\SCTPResentValidator.cs" />
+    <Compile Include="Validators\SpxValidator.cs" />
     <Page Include="Pages\CUDBOne.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

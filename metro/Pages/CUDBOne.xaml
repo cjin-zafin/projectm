@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <metro:DimensionBackGroundValidator x:Key="DimensionBackGroundValidator"/>
         <metro:DimensionForeground x:Key="DimensionForeground"/>
+        <metro:SpxValidator x:Key="SpxValidator"/>
     </UserControl.Resources>
 
     <Grid Width="1062" Height="511" Name="mainGrid">
@@ -38,16 +39,10 @@
                 <DataGridTextColumn Header="2G 鉴权信息数量" CanUserSort="False" 
                                 Binding="{Binding TwoGAuthInfoCount}" Width="231" IsReadOnly="True" Foreground="#FF003FE8"/>
                 <DataGridTextColumn Header="3G 鉴权信息数量" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding ThreeGAuthInfoCount}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Background" Value="{Binding fiveDim, Converter={StaticResource DimensionBackGroundValidator}}"/>
-                            <Setter Property="Foreground" Value="{Binding fiveDim, Converter={StaticResource DimensionForeground}}"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                                CanUserReorder="False"  Binding="{Binding ThreeGAuthInfoCount}" Foreground="#FF003FE8">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="4G 用户数" Width="231" IsReadOnly="True" 
-                                CanUserReorder="False"  Binding="{Binding fourGUserCount}">
+                                CanUserReorder="False"  Binding="{Binding fourGUserCount}" Foreground="#FF003FE8">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
