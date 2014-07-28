@@ -14,25 +14,26 @@ namespace metro
         {
             string input = value as string;
 
-
-            string[] datas = input.Split('/');
-            if (datas[0] != null && datas[1] != null && !datas[0].Equals("") && !datas[0].Equals(""))
+            if (input != null)
             {
-                int req = int.Parse(datas[0]);
-                int gen = int.Parse(datas[1]);
+                string[] datas = input.Split('/');
+                if (!input.Equals("N/A") && datas[0] != null && datas[1] != null && !datas[0].Equals("") && !datas[0].Equals(""))
+                {
+                    int req = int.Parse(datas[0]);
+                    int gen = int.Parse(datas[1]);
 
-                if (req != gen)
-                {
-                    return "Red";
-                }
-                else
-                {
-                    return "#FF003FE8";
+                    if (req != gen)
+                    {
+                        return "Red";
+                    }
+                    else
+                    {
+                        return "#FF003FE8";
+                    }
                 }
             }
 
             return "#FF003FE8";
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

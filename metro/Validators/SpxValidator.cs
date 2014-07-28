@@ -12,19 +12,21 @@ namespace metro
         {
             string input = value as string;
 
-
-            string[] datas = input.Split('%');
-            if (datas[0] != null && !datas[0].Equals(""))
+            if (input != null)
             {
-                double req = double.Parse(datas[0]);
+                string[] datas = input.Split('%');
+                if (!input.Equals("N/A") && datas[0] != null && !datas[0].Equals("") && !datas[0].Equals("N/A"))
+                {
+                    double req = double.Parse(datas[0]);
 
-                if (req > 60.0)
-                {
-                    return "Red";
-                }
-                else
-                {
-                    return "#FF003FE8";
+                    if (req > 60.0)
+                    {
+                        return "Red";
+                    }
+                    else
+                    {
+                        return "#FF003FE8";
+                    }
                 }
             }
 

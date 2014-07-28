@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 
 namespace metro
 {
-    public partial class HSS : UserControl
+    public partial class HSSTwo : UserControl
     {
 
         protected class FirstGridData
@@ -40,7 +40,7 @@ namespace metro
         private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
         private FileSystemWatcher fsWatcher = new FileSystemWatcher();
 
-        public HSS()
+        public HSSTwo()
         {
             InitializeComponent();
         }
@@ -76,11 +76,12 @@ namespace metro
         {
             String logPathText = logAddress.Text;
 
-            if(Directory.Exists(logPathText)){
+            if (Directory.Exists(logPathText))
+            {
                 listBox.Items.Clear();
                 nameAddressMap.Clear();
                 HSSDataProvider.hssFileListMap.Clear();
-                FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HSS01FE01");
+                FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HSS01FE02");
 
                 if (!listBox.Items.IsEmpty)
                 {
@@ -149,7 +150,8 @@ namespace metro
                 List<FirstGridData> firstList = new List<FirstGridData>();
                 FirstGridData fgd = new FirstGridData();
                 fgd.cpu = hss.maxCpuLoad;
-                if(fgd.cpu == null ){
+                if (fgd.cpu == null)
+                {
                     fgd.cpu = "N/A";
                 }
                 fgd.mem = hss.MaxMemUsage;

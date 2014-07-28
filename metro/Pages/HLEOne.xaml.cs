@@ -23,12 +23,48 @@ namespace metro
     {
         private Hashtable nameAddressMap = new Hashtable();
         private System.Windows.Forms.FolderBrowserDialog browse = new System.Windows.Forms.FolderBrowserDialog();
+        private FileSystemWatcher fsWatcher = new FileSystemWatcher();
 
         private void HLEOne_Loaded(object sender, RoutedEventArgs e)
         {
             logAddress.Text = SettingsData.location;
             analyzeButton.IsEnabled = false;
             onSearch();
+
+           if(Directory.Exists(logAddress.Text)) {
+            fsWatcher.Path = logAddress.Text;
+            fsWatcher.IncludeSubdirectories = true;
+
+            fsWatcher.NotifyFilter = NotifyFilters.Attributes |
+                                                 NotifyFilters.CreationTime |
+                                                 NotifyFilters.DirectoryName |
+                                                 NotifyFilters.FileName |
+                                                 NotifyFilters.LastAccess |
+                                                 NotifyFilters.LastWrite |
+                                                 NotifyFilters.Security |
+                                                 NotifyFilters.Size;
+
+            fsWatcher.EnableRaisingEvents = true;
+            // Raise Event handlers.
+            fsWatcher.Changed += new FileSystemEventHandler(OnChanged);
+            fsWatcher.Created += new FileSystemEventHandler(OnChanged);
+            fsWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+            fsWatcher.Renamed += new RenamedEventHandler(OnChanged);
+            fsWatcher.Error += new ErrorEventHandler(OnError);
+           }
+        }
+
+        public void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            this.Dispatcher.Invoke(new Action (delegate
+            {
+                onSearch();
+            }));
+        }
+
+        public void OnError(object sender, ErrorEventArgs e)
+        {
+            //do nothing
         }
 
         private void INotifyPropertyChanged(string p)
@@ -183,19 +219,29 @@ namespace metro
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            onSearch();
+            if (Directory.Exists(logAddress.Text))
+            {
+                fsWatcher.Path = logAddress.Text;
+                SettingsData.location = logAddress.Text;
+                onSearch();
+            }
         }
 
         private void onSearch()
         {
-            String logPathText = logAddress.Text;
+            String logPathText = SettingsData.location;
 
-            FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE01");
-
-            if (!listBox.Items.IsEmpty)
+            if (Directory.Exists(logPathText))
             {
-                listBox.SelectedIndex = 0;
-                analyzeNow();
+                listBox.Items.Clear();
+                nameAddressMap.Clear();
+                FileHelper.searchFileAndPopulate(logPathText, listBox, nameAddressMap, "HLRFE01");
+
+                if (!listBox.Items.IsEmpty)
+                {
+                    listBox.SelectedIndex = 0;
+                    analyzeNow();
+                }
             }
         }
 
@@ -216,6 +262,8 @@ namespace metro
             {
                 folderName = browse.SelectedPath;
                 logAddress.Text = folderName;
+                fsWatcher.Path = folderName;
+                SettingsData.location = folderName;
             }
         }
     }

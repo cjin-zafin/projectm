@@ -12,16 +12,19 @@ namespace metro
         {
             string input = value as string;
 
-
-            if (input!= null && !input.Equals("PASS"))
+            if (input != null)
             {
-                return "Red";
-            }
-            else
-            {
-                return "Green";
+                if (input != null && !input.Equals("N/A") && !input.Equals("PASS"))
+                {
+                    return "Red";
+                }
+                else
+                {
+                    return "Green";
+                }
             }
 
+            return "Green";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

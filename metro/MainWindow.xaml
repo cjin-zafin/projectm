@@ -9,20 +9,23 @@
                       BorderThickness="1,1,1,1" BorderBrush="#FF086F9E">
     <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1" BorderThickness="4" Margin="9,0,0,0">
         
-        <TabItem Name="tab1" Header="HLR-FE 1">
+        <TabItem Name="tab1" Header="HLR 01">
             <metro:HLEOne Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="CUDB 1">
+        <TabItem Header="CUDB 01">
             <metro:CUDBOne Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="HSS 机">
+        <TabItem Header="HSS 01">
             <metro:HSS Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="HLR-FE 2">
+        <TabItem Header="HLR 02">
             <metro:HLETwo Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
-        <TabItem Header="CUDB 2">
+        <TabItem Header="CUDB 02">
             <Pages:CUDBTwo Width="1062" Height="511" DataContext="{Binding}" />
+        </TabItem>
+        <TabItem Header="HSS 02">
+            <metro:HSSTwo Width="1062" Height="511" DataContext="{Binding}" />
         </TabItem>
     </Controls:MetroAnimatedSingleRowTabControl>
 </Controls:MetroWindow>

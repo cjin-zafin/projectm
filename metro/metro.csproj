@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -91,11 +91,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HSSDataProvider.cs" />
     <Compile Include="Pages\CUDBTwo.xaml.cs">
       <DependentUpon>CUDBTwo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HSS.xaml.cs">
       <DependentUpon>HSS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HSSTwo.xaml.cs">
+      <DependentUpon>HSSTwo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processors\FileHelper.cs" />
     <Compile Include="Processors\CudbFileProcess.cs" />
@@ -140,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\HSS.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HSSTwo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

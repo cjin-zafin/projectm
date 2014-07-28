@@ -169,37 +169,42 @@ namespace metro.Processors
             String xmlString = "";
             String endLine = "</mi>";
             int endLineCount = 0;
-            for (int i = HssS6aUpdateLocationRequestsLine - 3; i < lines.Count; i++)
+            if (HssS6aUpdateLocationRequestsLine > 3)
             {
-                xmlString += lines[i];
-
-                if (lines[i].Contains(endLine))
+                for (int i = HssS6aUpdateLocationRequestsLine - 3; i < lines.Count; i++)
                 {
-                    endLineCount = i;
-                    break;
+                    xmlString += lines[i];
+
+                    if (lines[i].Contains(endLine))
+                    {
+                        endLineCount = i;
+                        break;
+                    }
                 }
-            }
 
-            XmlReader lineReader = XmlReader.Create(new StringReader(xmlString));
+                XmlReader lineReader = XmlReader.Create(new StringReader(xmlString));
 
-            while (lineReader.Read())
-            {
-                if (lineReader.NodeType == XmlNodeType.Element
-                   && lineReader.Name == "r")
+                while (lineReader.Read())
                 {
-                    String value = lineReader.ReadString();
+                    if (lineReader.NodeType == XmlNodeType.Element
+                       && lineReader.Name == "r")
+                    {
+                        String value = lineReader.ReadString();
 
-                    returnValues.Add(int.Parse(value));
+                        returnValues.Add(int.Parse(value));
+                    }
                 }
+
+                int retVal = 0;
+                foreach (int value in returnValues)
+                {
+                    retVal += value;
+                }
+
+                return retVal.ToString();
             }
 
-            int retVal = 0;
-            foreach (int value in returnValues)
-            {
-                retVal += value;
-            }
-
-            return retVal.ToString();
+            return "0";
         }
 
         private double calculateRatio(string EsmMapSaiSuccessResponses, string EsmMapSaiRequests)
@@ -216,22 +221,29 @@ namespace metro.Processors
 
         private string processThridlineData(int nameline, List<string> lines)
         {
-            String thirdLine = lines[nameline + 3];
-
-            String thirdLineValue = null;
-
-            XmlReader thirdLineReader = XmlReader.Create(new StringReader(thirdLine));
-
-            while (thirdLineReader.Read())
+            if (nameline > 5)
             {
-                if (thirdLineReader.NodeType == XmlNodeType.Element
-                   && thirdLineReader.Name == "r")
-                {
-                    thirdLineValue = thirdLineReader.ReadString();
-                }
-            }
+                String thirdLine = lines[nameline + 3];
 
-            return thirdLineValue;
+                String thirdLineValue = null;
+
+                XmlReader thirdLineReader = XmlReader.Create(new StringReader(thirdLine));
+
+                while (thirdLineReader.Read())
+                {
+                    if (thirdLineReader.NodeType == XmlNodeType.Element
+                       && thirdLineReader.Name == "r")
+                    {
+                        thirdLineValue = thirdLineReader.ReadString();
+                    }
+                }
+
+                return thirdLineValue;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void processSs7File(HssDataSet hsData, string filePath)
@@ -338,7 +350,7 @@ namespace metro.Processors
                        && maxCpuReader.Name == "r")
                     {
                         String cpu = maxCpuReader.ReadString();
-                        hsData.maxCpuLoad = (double.Parse(cpu)/100).ToString("#0.##%");
+                        hsData.maxCpuLoad = (double.Parse(cpu) / 100).ToString("#0.##%");
                     }
                 }
 
@@ -348,7 +360,7 @@ namespace metro.Processors
                        && maxMemReader.Name == "r")
                     {
                         String mem = maxMemReader.ReadString();
-                        hsData.MaxMemUsage = (double.Parse(mem)/100).ToString("#0.##%");
+                        hsData.MaxMemUsage = (double.Parse(mem) / 100).ToString("#0.##%");
                     }
                 }
             }

@@ -36,7 +36,7 @@ namespace metro
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SettingsData.location = "F:\\ProjectMTest\\log";
+            SettingsData.location = "F:\\ProjectMTest\\newLog";
         }
     }
 }
